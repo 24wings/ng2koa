@@ -1,0 +1,120 @@
+#title {
+    text-align: center;
+    /*animation: myfirst 3s linear 2s alternate;*/
+    /*-moz-animation: myfirst 3s linear 2s alternate;*/
+    /*-webkit-animation: myfirst 3s linear 2s alternate;*/
+    /*-o-animation: myfirst 5s linear 2s alternate;*/
+    color: #fff;
+    font-size: 32px;
+    vertical-align: middle;
+    margin-top: 20px;
+    border-radius: 15px;
+    line-height: 33px;
+    color: green;
+}
+
+@keyframes myfirst {
+    10% {
+        transform: rotate(0deg);
+        left: 0px;
+    }
+    25% {
+        transform: rotate(20deg);
+        left: 0px;
+    }
+    50% {
+        transform: rotate(0deg);
+        left: 500px;
+    }
+    55% {
+        transform: rotate(0deg);
+        left: 500px;
+    }
+    70% {
+        transform: rotate(0deg);
+        left: 500px;
+        background: #1ec7e6;
+    }
+    100% {
+        transform: rotate(-360deg);
+        left: 0px;
+    }
+    0% {
+        -webkit-transform: rotate(0deg);
+        left: 0px;
+    }
+    25% {
+        -webkit-transform: rotate(20deg);
+        left: 0px;
+    }
+    50% {
+        -webkit-transform: rotate(0deg);
+        left: 500px;
+    }
+    55% {
+        -webkit-transform: rotate(0deg);
+        left: 500px;
+    }
+    70% {
+        -webkit-transform: rotate(0deg);
+        left: 500px;
+        background: #1ec7e6;
+    }
+    100% {
+        -webkit-transform: rotate(-360deg);
+        left: 0px;
+    }
+    0% {
+        -moz-transform: rotate(0deg);
+        left: 0px;
+    }
+    25% {
+        -moz-transform: rotate(20deg);
+        left: 0px;
+    }
+    50% {
+        -moz-transform: rotate(0deg);
+        left: 500px;
+    }
+    55% {
+        -moz-transform: rotate(0deg);
+        left: 500px;
+    }
+    70% {
+        -moz-transform: rotate(0deg);
+        left: 500px;
+        background: #1ec7e6;
+    }
+    100% {
+        -moz-transform: rotate(-360deg);
+        left: 0px;
+    }
+}
+
+.form-control {
+    height: 50px;
+}
+
+.body {
+    background: url(http://www.pptbz.com/pptpic/UploadFiles_6909/201105/2011051707525725.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    padding-bottom: 50px;
+    min-height: 100vh;
+}
+
+.form-group label {
+    font-size: 1.3em;
+}
+
+.full button span {
+    background-color: limegreen;
+    border-radius: 32px;
+    color: black;
+}
+
+.partially button span {
+    background-color: orange;
+    border-radius: 32px;
+    color: black;
+}

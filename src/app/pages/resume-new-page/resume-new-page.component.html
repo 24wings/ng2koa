@@ -1,0 +1,193 @@
+<nav class="navbar navbar-default navbar-fixed-top navbar-inverse" role="navigation">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+      <span class="sr-only">Toggle navigation</span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </button>
+        <a class="navbar-brand" href="#">万维科技</a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse navbar-ex1-collapse">
+        <ul class="nav navbar-nav">
+
+            <li><a [routerLink]="['/']">访客</a></li>
+        </ul>
+        <form class="navbar-form navbar-right" role="search" *ngIf="!isAdmin">
+            <div class="form-group">
+                <input type="text" style="height: 35px;" class="form-control" placeholder="管理员密码" #passwordInput>
+            </div>
+            <button type="submit" class="btn btn-success" (click)="isAdmin=passwordInput.value=='admin';showVisitors() ">开启</button>
+        </form>
+
+        <form class="navbar-form navbar-right" role="search" *ngIf="isAdmin">
+            <button class="btn btn-warning" (click)="isAdmin=false">注销</button> </form>
+    </div>
+
+    <!-- /.navbar-collapse -->
+</nav>
+
+
+
+<div class="container">
+    <div class="form-inline " role="form ">
+
+        <div class="form-group ">
+            <label for=" ">姓名,手机号,性别等关键字</label>
+            <input type="text " class="form-control " [(ngModel)]="keyword ">
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div style="display: block;">
+            <canvas baseChart width="400" height="400" [datasets]="visitorChart.lineChartData" [labels]="visitorChart.lineChartLabels" [options]="visitorChart.lineChartOptions" [colors]="visitorChart.lineChartColors" [legend]="visitorChart.lineChartLegend" [chartType]="visitorChart.lineChartType"
+                (chartHover)="chartHovered($event)" (chartClick)="chartClicked($event)"></canvas>
+        </div>
+    </div>
+    <div class="col-md-6" style="margin-bottom: 10px">
+        <div class="col-md-6">
+            <h4>起始日期:{{ startDt | date:'yyyy年MM月DD日'}}</h4>
+            <div style="display:inline-block; min-height:290px;">
+                <datepicker [(ngModel)]="startDt" [formatDayTitle]="'YYYY年MM月'" [formatMonth]="'YYYY年MM月'" [minDate]="minDate" [showWeeks]="true"></datepicker>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <h4>截止日期:{{endDt| date:'yyyy年MM月DD日 HH-mm-ss'}}</h4>
+            <div style="display:inline-block; min-height:290px;">
+                <datepicker [(ngModel)]="endDt" [formatDayTitle]="'YYYY年MM月'" [formatMonth]="'YYYY年MM月'" [minDate]="minDate" [maxDate]="currentTime" [showWeeks]="true"></datepicker>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<div class="container-fluid body">
+
+    <div class="container" style="height:200px;text-align:center;" *ngIf="!msg">
+
+        <div class="text-center" id="title" style="margin-top:70px"> <b>欢迎来到万维科技</b></div>
+        <div id="title" class="text-center"> 面试请登记!</div>
+
+    </div>
+
+
+    <div class="container" *ngIf="!isAdmin &&  !msg">
+        <div class="row">
+            <div class="col-sm-8 col-sm-offset-2">
+                <form (ngSubmit)="submit()" method="POST" role="form" #visitorForm="ngForm">
+                    <legend></legend>
+                    <div class="form-group">
+                        <label for="exampleInputName2">姓名:</label>
+                        <input type="text" class="form-control" [(ngModel)]="visitor.name" placeholder="姓名" name="name" required #name="ngModel">
+                    </div>
+                    <div [hidden]="name.valid || name.pristine" class="alert alert-danger">
+                        姓名必填
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail2">性别:</label>
+                        <select name="gender" class="form-control" [(ngModel)]="visitor.gender" required="required">
+                <option value="男">男</option>
+                <option value="女">女</option>
+            </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail2">年龄:</label>
+                        <input type="number" class="form-control" [(ngModel)]="visitor.age" required placeholder="" name="age" #age="ngModel">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail2">联系电话:</label>
+                        <input type="text" class="form-control" [(ngModel)]="visitor.phone" placeholder="" name="phone" required #phone="ngModel">
+                    </div>
+                    <div [hidden]="phone.valid || phone.pristine" class="alert alert-danger">
+                        手机必填
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail2">应聘岗位:</label>
+                        <select name="job" class="form-control" [(ngModel)]="visitor.job" required="required">
+                <option value="Web前端" >Web前端</option>
+                <option value="UI设计">UI设计</option>
+                <option value="新媒体运营">新媒体运营</option>
+                <option value="JAVA">JAVA</option>
+                <option value="其他">其他</option>
+            </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="">从哪里了解到的招聘信息:</label>
+                        <select name="fromMsgPlace" class="form-control" [(ngModel)]="visitor.fromMsgPlace" required="required" #fromMsgPlace="ngModel">
+                <option value="前程无忧" >前程无忧</option>
+                <option value="58同城">58同城</option>
+                <option value="智联">智联</option>
+                <option value="其他">其他</option>
+            </select>
+                    </div>
+                    <div [hidden]="fromMsgPlace.valid || fromMsgPlace.pristine" class="alert alert-danger">
+                        必填
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail2">备注:</label>
+                        <input type="text" class="form-control" [(ngModel)]="visitor.comment" placeholder="" name="comment">
+                    </div>
+                    <button type="submit" class="btn btn-success" [disabled]="!visitorForm.form.valid">提交</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="msg" *ngIf="msg" style="margin-top:500px;font-size:40px;min-height:80vh;letter-spacing: 5px;">感谢来访!
+        <br>
+
+        <h4 (click)="count=0">快速返回</h4>
+
+    </div>
+
+
+
+    <div class="container" *ngIf="isAdmin">
+
+
+        <div class="form-inline " role="form ">
+
+            <div class="form-group ">
+                <label for=" ">姓名,手机号,性别等关键字</label>
+                <input type="text " class="form-control " [(ngModel)]="keyword ">
+            </div>
+        </div>
+        <button class="btn btn-success" (click)="alertData()">调试</button>
+
+        <table class="table table-hover ">
+            <thead>
+                <tr>
+                    <th>姓名</th>
+                    <th>性别</th>
+                    <th>年龄</th>
+                    <th>手机号</th>
+                    <th>应聘岗位</th>
+                    <th>从哪里了解到的招聘信息</th>
+                    <th>备注</th>
+                    <th>日期</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let visitor of visitors | visitorPipe:keyword ">
+                    <td>{{visitor.name}}</td>
+                    <td>{{visitor.gender}}</td>
+                    <td>{{visitor.age}}</td>
+                    <td>{{visitor.phone}}</td>
+                    <td>{{visitor.job}}</td>
+                    <td>{{visitor.fromMsgPlace}}</td>
+                    <td>{{visitor.comment}}</td>
+                    <td>{{visitor.createDt|date:'yy-MM-dd HH:mm分'}}</td>
+                    <td>
+                        <div class="btn btn-warning" (click)="delVisitor(visitor)">删除</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
